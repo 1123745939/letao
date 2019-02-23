@@ -14,6 +14,9 @@ ul {
     padding: 0;
     margin: 0;
 }
+.red {
+    color: #A94442;
+}
 .body-bg {
     background-color: #222D32;
 }
@@ -37,6 +40,10 @@ ul {
     top: 0;
     left: 0;
     z-index: 999;
+    transition: all 1s;
+}
+.aside.hidemenu {
+    left: -180px;
 }
 .aside .brand {
     width: 100%;
@@ -90,6 +97,10 @@ ul {
 .main {
     padding-left: 180px;
     padding-top: 50px;
+    transition: all 1s;
+}
+.main.hidemenu {
+    padding-left: 0;
 }
 .main .topbar {
     height: 50px;
@@ -99,6 +110,10 @@ ul {
     top: 0;
     left: 0;
     padding-left: 180px;
+    transition: all 1s;
+}
+.main .topbar.hidemenu {
+    padding-left: 0;
 }
 .main .topbar a {
     width: 50px;
