@@ -1,6 +1,6 @@
 $(function () {
     var currentPage = 1;
-    var pagesize = 5;
+    var pageSize = 5;
     var currentId = "";
     var isDelete = "";
 
@@ -12,7 +12,7 @@ $(function () {
             url: "/user/queryUser",
             data: {
                 page: currentPage,
-                pageSize: pagesize
+                pageSize: pageSize
             },
             dataType: "json",
             success: function (info) {
