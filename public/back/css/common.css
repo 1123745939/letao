@@ -133,3 +133,6 @@ ul {
     text-align: center;
     vertical-align: middle;
 }
+.paginator-wrapper {
+    text-align: right;
+}
