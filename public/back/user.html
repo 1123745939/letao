@@ -44,10 +44,28 @@
             <a href="javascript:void();" class="pull-right icon-logout"><i class="glyphicon glyphicon-log-out"></i></a>
         </div>
         <div class="container-fluid">
+            <!-- 面包屑导航` -->
             <ol class="breadcrumb mt-20">
                 <li><a href="index.html">管理系统</a></li>
                 <li class="active">用户管理</li>
             </ol>
+
+            <div class="content">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="10%">序号</th>
+                            <th width="20%">用户名</th>
+                            <th width="30%">手机号</th>
+                            <th width="20%">状态</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 占个坑 -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -69,11 +87,42 @@
             </div>
         </div>
     </div>
+
+<!-- 
+    模板引擎使用步骤
+    1 引包
+    2 准备模板
+    3 准备数据
+    4 将模板和数据结合  进行页面渲染
+ -->
+<script type="text/html" id="tpl">
+    
+    {{ each rows v i }}
+    <tr>		
+        <td>{{ i+1 }}</td>
+        <td>{{ v.username }}</td>
+        <td>{{ v.mobile }}</td>
+        <td>
+            {{ v.isDelete ===1 ? "正常" : "禁用" }}
+        </td>
+        <td>
+            {{ if v.isDelete === 1 }}
+            <button class="btn btn-danger">禁用</button>
+            {{ /if }}
+            {{ if v.isDelete !== 1 }}
+            <button class="btn btn-success">启用</button>
+            {{ /if }}
+        </td>
+    </tr>
+    {{ /each }}
+</script>
+
 <script src="./lib/jquery/jquery.min.js"></script>
 <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
 <script src="./lib/nprogress/nprogress.js"></script>
+<script src="./lib/artTemplate/template-web.js"></script>
+<script src="./js/user.js"></script>
 <script src="./js/common.js"></script>
-<script src="./js/index.js"></script>
 </body>
 </html>
