@@ -118,6 +118,8 @@ $(function () {
                     render()
                     // 重置表单
                     $("#form").data("bootstrapValidator").resetForm(true)
+                    $("categroy").text("请选择一级分类")
+                    $("#img-box").remove()
                 }
             }
         })
