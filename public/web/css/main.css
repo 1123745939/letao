@@ -1,0 +1,19 @@
+.mt-30 {
+    margin-top: 30px;
+}
+.input-wrapper {
+    margin: 20px 0;
+}
+.input-group {
+    margin-top: 5px;
+}
+.input-group .input-group-addon:first-child {
+    width: 70px;
+}
+.img-preview {
+    overflow: hidden;
+}
+.img-container {
+    min-height: 200px;
+    max-height: 469px;
+}

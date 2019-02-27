@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./lib/cropper/cropper.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-30">
+        <div class="col-md-9">
+            <div class="img-container">
+                <img src="./images/picture.jpg" alt="" width="100%" id="img">
+            </div>
+            
+            <div class="button-wrapper mt-30">
+                <div class="btn-group">
+                    <button class="btn btn-primary" data-method="zoom+">放大</button>
+                    <button class="btn btn-primary" data-method="zoom-">缩小</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" data-method="rotate+90">左转90°</button>
+                    <button class="btn btn-primary" data-method="rotate-90">右转90°</button>
+                </div>
+                <div class="btn-group file-wrapper">
+                    <button class="btn btn-primary" data-method="refresh">刷新</button>
+                    <label class="btn btn-primary" for="inputImage">上传图片</label>
+                    <input type="file" id="inputImage" data-method="uploadImg" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" style="display:none;">
+                </div>
+                <button class="btn btn-primary" data-method="uploadAva">上传头像</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="img-preview" style="width:200px;height: 200px;"></div>
+            <div class="input-wrapper">
+                <div class="input-group">
+                    <span class="input-group-addon">X</span>
+                    <input type="text" class="form-control" id="dataX">
+                    <span class="input-group-addon">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Y</span>
+                    <input type="text" class="form-control" id="dataY"> 
+                    <span class="input-group-addon">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Width</span>
+                    <input type="text" class="form-control" id="dataWidth">
+                    <span class="input-group-addon">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Height</span>
+                    <input type="text" class="form-control" id="dataHeight">
+                    <span class="input-group-addon">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Rotate</span>
+                    <input type="text" class="form-control" id="dataRotate">
+                    <span class="input-group-addon">px</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ScaleX</span>
+                    <input type="text" class="form-control" id="dataScaleX">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">ScaleY</span>
+                    <input type="text" class="form-control" id="dataScaleX">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myAlert" class="alert alert-warning">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>警告！</strong>头像太大,请重新调整
+    </div>
+<script src="./lib/jquery/jquery.min.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./lib/cropper/cropper.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
