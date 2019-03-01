@@ -183,3 +183,123 @@ html, body {
 .tips {
     padding: 10px;
 }
+
+.search-input-group {
+    padding: 10px;
+    position: relative;
+}
+.search-input-group input {
+    height: 34px;
+    line-height: 34px;
+    border: 1px solid #007AFF;
+    font-size: 12px;
+    margin: 0;
+    border-radius: 5px;
+}
+.search-input-group button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 0 5px 5px 0;
+}
+.search-history {
+    padding: 10px;
+    font-size: 12px;
+    color: #666;
+}
+.search-history .title {
+    height: 30px;
+    line-height: 30px;
+}
+.search-history .content {
+    border: 1px dashed red;
+}
+.search-history .content li{
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px dashed red;
+    padding-left: 10px;
+}
+.search-history .content li:last-child{
+    border-bottom: none;
+}
+.search-history .content li i{
+    line-height: 30px;
+}
+
+.lt-sort {
+    height: 30px;
+    line-height: 30px;
+    background-color: #eee;
+    font-size: 12px;
+}
+.lt-sort a {
+    width: 25%;
+    float: left;
+    text-align: center;
+    color: #666;
+}
+.lt-sort a.current {
+    color: #FF8C00;
+}
+.loading {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #069;
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    transform: translateX(-50%);
+    /* 动画效果 */
+    animation: rotate 1s infinite ease-in-out;
+}
+@keyframes rotate {
+    from {
+        transform: translateX(-50%) rotate(0deg)
+    }
+    to {
+        transform: translateX(-50%) rotate(360deg)
+    }
+}
+
+
+.item-box {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.lt-item-price .price {
+    color: red;
+}
+.lt-item-price .oldPrice {
+    color: #666;
+    text-decoration: line-through;
+    font-size: 12px;
+}
+.lt-item-size span {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-size: 12px;
+    display: inline-block;
+}
+.lt-item-num span {
+    font-size: 12px;
+    color: #666;
+}
+.lt-cart-wrapper {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 55px;
+    background-color: #efeff4;
+    padding: 11px;
+}
+.lt-cart-wrapper a{
+    padding: 5px;
+}
