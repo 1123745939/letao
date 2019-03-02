@@ -1,113 +1,111 @@
-/**
- * Created by Jepson on 2018/8/12.
- */
-$(function() {
+$(function () {
+    // 获取搜索关键字
+    var key = getSearch("key")
+    // 设置 input 值
+    $("#searchInput").val(key)
+    var currentPage = 1;
+    var pageSize = 2;
+    // 1 一进入界面 渲染界面
+    //render()
+    function render(callback) {
+        //$(".lt-product").html('<div class="loading"></div>')
 
-
-  // 功能1: 解析地址栏参数, 将参数赋值到input框中
-  var key = getSearch( "key" );
-  $('.search_input').val( key );
-  render();
-
-
-  // 获取 input框的值, 请求数据, 进行渲染
-  function render() {
-    $('.lt_product').html('<div class="loading"></div>');
-
-
-    // 三个必传的参数
-    var params = {};
-    params.proName = $('.search_input').val();  // 搜索关键字
-    params.page = 1;
-    params.pageSize = 100;
-
-    // 两个可选的参数
-    // 通过判断有没有高亮的a标签, 来决定需不需要传递排序的参数
-    var $current = $('.lt_sort a.current');
-    if ( $current.length > 0 ) {
-      // 当前有 a 标签有current类, 需要进行排序
-      console.log( "需要进行排序" );
-      // 按照什么进行排序
-      var sortName = $current.data("type");
-      // 升序还是降序, 可以通过判断箭头的方向决定, （1升序，2降序）
-      var sortValue = $current.find("i").hasClass("fa-angle-down") ? 2 : 1;
-
-      // 如果需要排序, 需要将参数添加在params中
-      params[ sortName ] = sortValue;
-    }
-
-
-    setTimeout(function() {
-      // 发送 ajax 请求, 获取搜索到的商品, 通过模板引擎渲染
-      $.ajax({
-        type: "get",
-        url: "/product/queryProduct",
-        data: params,
-        dataType: "json",
-        success: function( info ) {
-          console.log( info )
-          var htmlStr = template( "tpl" , info );
-          $('.lt_product').html( htmlStr );
+        var params = {}
+        // 3个必填参数
+        params.proName = $("#searchInput").val();
+        params.page = currentPage;
+        params.pageSize = pageSize;
+        // 2个可选参数
+        var $current = $(".lt-sort a.current")
+        if ($current.length > 0) {
+            var sortName = $current.data("type")
+            var sortValue = $current.find("i").hasClass("fa-angle-down") ? 2 : 1;
+            params[sortName] = sortValue
         }
-      })
-    }, 1000);
-  }
-
-
-
-  // 功能2: 点击搜索按钮, 实现搜索功能
-  $('.search_btn').click(function() {
-    // 获取搜索框的值
-    var key = $(".search_input").val();
-
-    // 获取数组
-    var jsonStr = localStorage.getItem("search_list");
-    var arr = JSON.parse( jsonStr );
-
-    // 1. 不能重复
-    var index = arr.indexOf( key );
-    if ( index > -1 ) {
-      // 已经存在, 删除该项
-      arr.splice( index, 1 );
-    }
-    // 2. 不能超过10个
-    if ( arr.length >= 10 ) {
-      arr.pop();
+        setTimeout(function () {
+            $.ajax({
+                type: "get",
+                url: "/product/queryProduct",
+                data: params,
+                dataType: "json",
+                success: function (info) {
+                    console.log(info);
+                    
+                    callback && callback(info);
+                }
+            })
+        }, 500)
     }
 
-    // 将搜索关键字添加到 arr 最前面
-    arr.unshift( key );
+    // 2 点击按钮查询
+    $("#searchBtn").click(function () {
+        
 
-    // 转存到本地存储中
-    localStorage.setItem( "search_list", JSON.stringify( arr ) );
+        var historyVal = $("#searchInput").val().trim()
+        if (historyVal !== "") {
+            setHistory(historyVal)
+        }
+        // 执行下拉刷新 
+        mui('.mui-scroll-wrapper').pullRefresh().pulldownLoading()
+    })
 
-    render();
-  });
+    // 3 分类排序
+    $(".lt-sort a[data-type]").on("tap",function () {
+        if ($(this).hasClass("current")) {
+            $(this).find("i").toggleClass("fa fa-angle-down").toggleClass("fa fa-angle-up")
 
+        } else {
+            $(this).addClass("current").siblings().removeClass("current")
+        }
+        // 执行下拉刷新
+        mui('.mui-scroll-wrapper').pullRefresh().pulldownLoading()
+    })
 
+    // 4 下拉刷新
+    mui.init({
+        pullRefresh: {
+            container: ".mui-scroll-wrapper",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+            down: {
+                auto: true,
+                callback: function () {
+                    currentPage = 1;
+                    render(function (info) {
+                        var htmlStr = template("productTpl", info)
+                        $(".lt-product").html(htmlStr)
+                        // 结束下拉刷新
+                        mui('.mui-scroll-wrapper').pullRefresh().endPulldownToRefresh()
 
-  // 功能3: 点击价格或者库存, 切换current, 实现排序
-  // 1. 绑定点击事件, 通过 a[data-type] 绑定
-  // 2. 切换 current类
-  //    (1)点击的a标签没有current类, 直接加上 current类, 并且移除其他 a 的current类
-  //    (2)点击的a标签有current类, 切换箭头方向
-  // 3. 调用 render 重新渲染
+                        mui('.mui-scroll-wrapper').pullRefresh().disablePullupToRefresh();
+                        setTimeout(function () {//启用上拉加载					 
+                            mui('.mui-scroll-wrapper').pullRefresh().enablePullupToRefresh();
+                            mui('.mui-scroll-wrapper').pullRefresh().endPullupToRefresh();
+                        }, 1000);	//设置1s后执行(需要大于1s)不然就会自动执行一次加载.
+                    })
+                }
+            },
+            up: {
+                auto: false,
+                callback: function () {
+                    currentPage++;
+                    render(function (info) {
+                        var htmlStr = template("productTpl", info)
+                        $(".lt-product").append(htmlStr)
+                        // 结束上拉加载
+                        if (info.data.length === 0) {
+                            mui('.mui-scroll-wrapper').pullRefresh().endPullupToRefresh(true);
+                        } else {
+                            setTimeout(() => {
+                                mui('.mui-scroll-wrapper').pullRefresh().endPullupToRefresh();
+                            }, 1000);//设置1s后执行(需要大于1s)不然就会自动执行一次加载.
+                        }
+                    })
+                }
+            }
+        }
+    });
 
-  $('.lt_sort a[data-type]').click(function() {
-
-    if ( $(this).hasClass("current") ) {
-      // 有类, 切换箭头方向
-      $(this).find("i").toggleClass("fa-angle-down").toggleClass("fa-angle-up");
-    }
-    else {
-      // 当前a没有类, 给自己加上, 让其他的移除
-      $(this).addClass("current").siblings().removeClass("current");
-    }
-
-    // 重新渲染
-    render();
-  })
-
-
-
-});
+    // 5 点击立即购买  跳转商品详情页
+    $(".lt-product").on("click", "button", function () {
+        location.href = "product.html?productId=" + $(this).data("index")
+    })
+})
